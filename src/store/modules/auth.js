@@ -3,8 +3,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-Vue.use(Vuex)
-Vue.use(VueAxios, axios)
+Vue.use(Vuex);
+Vue.use(VueAxios, axios);
 
 const state = {
     userToken: null
@@ -12,22 +12,25 @@ const state = {
 
 const actions = {
 
-    getTokenfromCredential({commit},loginData) {
+    getTokenfromCredential(context, loginData) {
         axios
-            .post("http://localhost:3000/auth/login", {
+            .post("http://192.168.1.42:3000/auth/login", {
                 username: loginData.username,
                 secreto: loginData.secreto
             } )
             .then( (response) => {
+                console.log(response);
                 if (response.status == 200) {
-                    commit("saveNewToken",response.data.body.token);
+                    context.commit("saveNewToken",response.data.token);
                 } else {
-                    commit("saveNewToken",null);
+                    context.commit("saveNewToken",null);
                 }
             })
 
 
     }
+
+
 
 
 

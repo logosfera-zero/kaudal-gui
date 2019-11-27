@@ -36,24 +36,12 @@
                                     </template>
                                     <span>Source</span>
                                 </v-tooltip>
-                                <v-tooltip right>
-                                    <template v-slot:activator="{ on }">
-                                        <v-btn
-                                                icon
-                                                large
-                                                href="https://codepen.io/johnjleider/pen/pMvGQO"
-                                                target="_blank"
-                                                v-on="on"
-                                        >
-                                            <v-icon>mdi-codepen</v-icon>
-                                        </v-btn>
-                                    </template>
-                                    <span>Codepen</span>
-                                </v-tooltip>
+
                             </v-toolbar>
                             <v-card-text>
                                 <v-form>
                                     <v-text-field
+                                            v-model="username"
                                             label="Login"
                                             name="login"
                                             prepend-icon="person"
@@ -61,6 +49,7 @@
                                     />
 
                                     <v-text-field
+                                            v-model="secreto"
                                             id="password"
                                             label="Password"
                                             name="password"
@@ -71,7 +60,7 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-spacer />
-                                <v-btn color="primary">Login</v-btn>
+                                <v-btn color="primary" v-on:click="getTokenfromCredential({username,secreto})">Login</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -82,9 +71,33 @@
 </template>
 
 <script>
+
+    import {mapActions, mapGetters} from "vuex";
+
     export default {
         props: {
             source: String,
+
         },
+
+        data: function () {
+            return {
+                username: "",
+                secreto: ""
+
+            }
+        },
+
+        methods: {
+            ...mapActions("auth",['getTokenfromCredential'])
+
+
+
+
+            },
+        computed: {
+            ...mapGetters("auth",['isLoggedThisSession'])
+        }
+
     }
 </script>
